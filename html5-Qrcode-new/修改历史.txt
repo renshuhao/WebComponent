@@ -1,0 +1,2 @@
+2018-02-01,组件[html5-Qrcode-new]
+1、qrcode.js  新增配置参数（回调函数）

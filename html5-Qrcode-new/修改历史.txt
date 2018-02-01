@@ -1,2 +1,3 @@
 2018-02-01,组件[html5-Qrcode-new]
-1、qrcode.js  新增配置参数（回调函数）
+1、修改qrcode.js  新增配置参数（回调函数）
+2、新增qrcode.html 二维码js生成

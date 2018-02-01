@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+
+	<body>
+		<div id="demo">
+			<div id="qrcode_div">
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="js/excanvas.js"></script>
+	<script type="text/javascript" src="js/jquery.qrcode.js?v=001"></script>
+	<script type="text/javascript" src="js/html2canvas.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			qrcode();
+		});
+
+		function ProcessFile( e ) { 
+            var file = document.getElementById('file').files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function ( event ) { 
+                    var txt = event.target.result;
+                    document.getElementById("result").innerHTML = txt;
+                    };
+              	}
+            	reader.readAsDataURL( file );
+            }
+
+		function utf16to8(str) {
+			var out, i, len, c;
+			out = "";
+			len = str.length;
+			for (i = 0; i < len; i++) {
+				c = str.charCodeAt(i);
+				if ((c >= 0x0001) && (c <= 0x007F)) {
+					out += str.charAt(i);
+				} else if (c > 0x07FF) {
+					out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+					out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+					out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+				} else {
+					out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+					out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+				}
+			}
+			return out;
+		}
+
+		function qrcode() {
+			var homePageUrl = '/mobile/App/appPage?inviteCode=';
+			$('#qrcode_div').qrcode({
+				render: 'canvas',
+				text: utf16to8(homePageUrl),
+				height: 230,
+				width: 230,
+				typeNumber: -1, //计算模式
+				correctLevel: QRErrorCorrectLevel.M, //纠错等级
+				background: "#ffffff", //背景颜色
+				foreground: "#000000", //前景颜色
+				src: "http://192.168.3.186:8020/qrcode/img/132.jpg",         //logo图片地址
+				canvasToImage: true,
+				renderToBackgroundImage: {
+					imageUrl: 'http://192.168.3.186:8020/qrcode/img/2113543312834561.jpg',
+					imageWidth: 756,
+					imageHeight: 1100,
+					x: 512, // 二维码在背景图片左上角的位置
+					y: 856,
+				}
+			});
+		}
+	</script>
+
+</html>
